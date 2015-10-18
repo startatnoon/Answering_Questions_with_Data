@@ -15,9 +15,7 @@ len(r.json()['stationBeanList'])
 
 key_list = [] #unique list of keys for each station listing
 for station in r.json()['stationBeanList']:
-    for k in station.keys():
-        if k not in key_list:
-            key_list.append(k)
+    [key_list.append(k) for k in station.keys() if k not in key_list] #refactored
 
 r.json()['stationBeanList'][0]
 
@@ -85,8 +83,9 @@ for i in range(60):
     id_bikes = collections.defaultdict(int) #defaultdict to store available bikes by station
 
     #loop through the stations in the station list
-    for station in r.json()['stationBeanList']:
-        id_bikes[station['id']] = station['availableBikes']
+    [id_bikes[station['id']] = station['availableBikes'] for station in r.json()['stationBeanList']]
+    #for station in r.json()['stationBeanList']:
+    #    id_bikes[station['id']] = station['availableBikes']
 
     #iterate through the defaultdict to update the values in the database
     with con:
